@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+  <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="/css/app.css" type="text/css" />
+  <title><%= appname %></title>
+  <style>
+    body {
+      background-color: #ffffff !important;
+    }
+    .basic-info-table td {
+      padding: 0.5rem !important;
+    }
+    .form-signature {
+      flex: 1;
+    }
+    .form-signature p {
+      border-bottom: 1px dotted;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+	<div>
+  <section class="main-section">
+  <div class="container">
+  <div class="row text-uppercase space">
+    <div class="col-12 py-2">
+      <h3 class="text-center">Semester Result</h3>
+    </div>
+    <div class="col-md-3 col-sm-12 mb-3 text-center text-md-left">
+      <h6 class="text-center p-2 border" style="border-bottom: 4px solid #aaa !important;">Passport Photograph</h6>
+      <div class="bg-white d-flex justify-content-center">
+        <img src='<%= student.photo %>' style="width: 172px; height: 200px;" />
+      </div> 
+    </div>
+    <div class="col-md-9 col-sm-12">
+      <h6 class="p-2 border" style="border-bottom: 4px solid #aaa !important;">Basic Details</h6>
+      <table class="table table-sm-responsive table-responsive bg-white basic-info-table">
+        <tbody>
+        <tr>
+          <td><span>Reg. Number:</span></td>
+          <td><%= student.reg_no %></td>
+        </tr>
+        <tr>
+          <td><span>Name:</span></td>
+          <td><%= student.surname + ", " + student.first_name + " " + student.middle_name %></td>
+        </tr>
+        <tr>
+          <td><span>Faculty/School:</span></td>
+          <td><%= student.school_faculty %></td>
+        </tr>
+        <tr>
+          <td><span>Department:</span></td>
+          <td><%= student.department %></td>
+        </tr>
+        <tr>
+          <td><span>Course of Study:</span></td>
+          <td><%= student.name_of_programme_of_study %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div>
+        <% if (error_msg && error_msg.length > 0) { %>
+          <div class="text-center alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <strong><%= error_msg %></strong> 
+          </div>
+          <script>
+            $(".alert").alert();
+          </script>
+        <% } %>
+      </div>
+    </div>
+    
+    <div class="col-lg-12">
+      <h4 class="card-title text-center text-uppercase"><%= session + " " + level + " Result" %></h4>
+      <div>
+        <table class="table table-bordered">
+          <thead class="bg-light text-center">
+            <tr>
+              <th>Course Code</th>
+              <th>Course Unit</th>
+              <th>Course Title</th>
+              <th>C.A. Score</th>
+              <th>Exam Score</th>
+              <th>Total</th>
+              <th>Grade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% results.forEach((c, index) => { %>
+              <tr>
+                <td><%= c.course.course_code %></td>
+                <td class="text-center"><%= c.course.course_unit %></td>
+                <td><%= c.course.course_title %></td>
+                <td class="text-center"><%= c.ca_score %></td>
+                <td class="text-center"><%= c.exam_score %></td>
+                <td class="text-center"><%= c.ca_score + c.exam_score %></td>
+                <td class="text-center"><%= c.grade.grade_name %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+          <tfoot class="bg-light">
+            <tr>
+              <td colspan="10"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      
+    </div>
+  </div>
+
+<%- include ('../partials/student-bottom') %>

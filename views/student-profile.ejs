@@ -1,0 +1,67 @@
+<%-include ("partials/top") %>
+<div class="row py-2">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+      <h4 class="page-title">Student Profile</h4>
+    </div>
+  </div> 
+</div>
+
+<div class="row text-uppercase">
+  <div class="col-md-3 col-sm-12 mb-3 text-center text-md-left">
+    <h6 class="text-center p-2 border" style="border-bottom: 4px solid #aaa !important;">Passport Photograph</h6>
+    <div class="bg-white">
+      <img src='<%= student.photo %>' style="width: 172px; height: 200px;" />
+    </div> 
+  </div>
+  <div class="col-md-9 col-sm-12">
+    <h6 class="p-2 border" style="border-bottom: 4px solid #aaa !important;">Basic Details</h6>
+    <table class="table table-sm-responsive table-responsive bg-white">
+      <tbody>
+      <tr>
+        <td><span>Reg. Number:</span></td>
+        <td><%= student.reg_no %></td>
+      </tr>
+      <tr>
+        <td><span>Name:</span></td>
+        <td><%= student.surname + ", " + student.first_name + " " + student.middle_name %></td>
+      </tr>
+      <tr>
+        <td><span>Faculty/School:</span></td>
+        <td><%= student.school_faculty %></td>
+      </tr>
+      <tr>
+        <td><span>Department:</span></td>
+        <td><%= student.department %></td>
+      </tr>
+      <tr>
+        <td><span>Course of Study:</span></td>
+        <td><%= student.name_of_programme_of_study %></td>
+      </tr>
+      <tr>
+        <td><span>Level:</span></td>
+        <td><%= student.level %></td>
+      </tr>
+      <tr>
+        <td><span>Phone No.:</span></td>
+        <td><%= student.phone %></td>
+      </tr>
+      <tr>
+        <td><span>Home Address:</span></td>
+        <td><%= student.address%></td>
+      </tr>
+      <tr>
+        <td><span>State of Origin:</span></td>
+        <td><%= student.state_of_origin %></td>
+      </tr>
+      <tr>
+        <td><span>L.G.A:</span></td>
+        <td><%= student.lga_of_origin %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<%-include ("partials/bottom") %>

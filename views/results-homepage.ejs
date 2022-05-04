@@ -1,0 +1,196 @@
+<%- include ('partials/top') %>
+  <div class="row space">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+        <h3 class="page-title">Results</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div>
+      <% if (success_msg && success_msg.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <strong><%= success_msg %></strong> 
+        </div>
+        <script>
+          $(".alert").alert();
+        </script>
+      <% } %>
+      <% if (error_msg && error_msg.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <strong><%= error_msg %></strong> 
+        </div>
+        <script>
+          $(".alert").alert();
+        </script>
+      <% } %>
+      </div>
+    </div>
+
+    <div class="col-lg-6 py-2">
+      <div class="card text-left">
+        <div class="card-body">
+          <h4 class="card-title text-center">Preview Course Results</h4>
+          <form class="form-inline" action="/results/get-result" method="GET">
+            <div class="form-group w-100 mb-2">
+              <label class="mr-3 justify-content-start" style="width: 80px;">Programme of Study</label>
+              <select name="programme_of_study" class="form-control" required style="flex: 1;">
+                <option value="">-- Choose Programme --</option>
+                <% programmes_of_study.forEach(p => { %>
+                  <option value='<%= p.serial_number %>'><%= p.name %></option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="form-group w-100 mb-2">
+              <label class="mr-3 justify-content-start" style="width: 80px;">Session</label>
+              <select name="session" class="form-control" required style="flex: 1;">
+                <option value="">-- Choose Session --</option>
+                <option>2018/2019</option>
+                <option>2019/2020</option>
+                <option>2020/2021</option>
+                <option>2021/2022</option>
+              </select>
+            </div>
+            <div class="form-group w-100 mb-2">
+              <label class="mr-3 justify-content-start" style="width: 80px;">Level</label>
+              <select name="level" class="form-control" required style="flex: 1;">
+                <option value="">-- Choose Level --</option>
+                <option>ND 1</option>
+                <option>ND 2</option>
+                <option>HND 1</option>
+                <option>HND 2</option>
+              </select>
+            </div>
+            <div class="form-group w-100 mb-2">
+              <label class="mr-3 justify-content-start" style="width: 80px;">Semester</label>
+              <select name="semester" class="form-control" required style="flex: 1;">
+                <option value="">-- Choose Semester --</option>
+                <option>First Semester</option>
+                <option>Second Semester</option>
+              </select>
+            </div>
+            <div class="form-group w-100 mb-2">
+              <label class="mr-3 justify-content-start" style="width: 80px;">Student's Reg. No.</label>
+              <input id="n-student_reg_no" type="text" name="student_reg_no" class="form-control" required style="flex: 1;">
+            </div>
+            <div class="mt-2 d-flex justify-content-center w-100">
+              <button type="submit" class="btn btn-primary">Preview Results</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-lg-6 py-2">
+      <div class="card text-left">
+        <div class="card-body">
+          <h4 class="card-title text-center">Input Course Result</h4>
+          <div>
+            <div id="notification" class="d-none alert alert-danger alert-dismissible fade show" role="alert">
+              <strong class="text-center text-dark" id="notification-text"></strong> 
+            </div>
+            <script>
+              $(".alert").alert();
+            </script>
+          </div>
+          <form id="new_result_form" class="form-inline" action="/results/new" method="GET">
+            <div class="form-group w-100 mb-2">
+              <label class="mr-3 justify-content-start" style="width: 80px;">Session</label>
+              <select id="n-session" name="session" class="form-control" required style="flex: 1;">
+                <option value="">-- Choose Session --</option>
+                <option>2018/2019</option>
+                <option>2019/2020</option>
+                <option>2020/2021</option>
+                <option>2021/2022</option>
+              </select>
+              
+            </div>
+            <div class="form-group w-100 mb-2">
+              <label class="mr-3 justify-content-start" style="width: 80px;">Level</label>
+              <select id="n-level" name="level" class="form-control" required style="flex: 1;">
+                <option value="">-- Choose Level --</option>
+                <option>ND 1</option>
+                <option>ND 2</option>
+                <option>HND 1</option>
+                <option>HND 2</option>
+              </select>
+            </div>
+            <div class="form-group w-100 mb-2">
+              <label class="mr-3 justify-content-start" style="width: 80px;">Semester</label>
+              <select id="n-semester" name="semester" class="form-control" required style="flex: 1;">
+                <option value="">-- Choose Semester --</option>
+                <option>First Semester</option>
+                <option>Second Semester</option>
+              </select>
+            </div>
+            <div class="form-group w-100 mb-2">
+              <label class="mr-3 justify-content-start" style="width: 80px;">Student's Reg. No.</label>
+              <input id="n-student_reg_no" type="text" name="student_reg_no" class="form-control" required style="flex: 1;">
+            </div>
+            <div class="form-group w-100 mb-2">
+              <label class="mr-3 justify-content-start" style="width: 80px;">Course</label>
+              <% /* %>
+              <input name="course_code" type="text" pattern="[A-Z]{3} [0-9]{3}" class="form-control" required placeholder="eg GNS 112" style="flex: 1;">
+              <% */ %>
+              <select id="n-courses" name="course_code" class="form-control" required style="flex: 1;">
+                <option value="">-- Select Courses --</option>
+                
+              </select>
+              <button type="button" class="btn btn-sm btn-success" onclick="fetchStudentCourses()"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+            </div>
+            <div class="mt-2 d-flex justify-content-center w-100">
+              <button type="submit" class="btn btn-primary">Proceed</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</div>
+
+</div>
+
+<script>
+let notificationEl = document.getElementById('notification')
+let notificationMsgEl = document.getElementById('notification-text')
+let courses_select_control = document.getElementById('n-courses')
+
+async function fetchStudentCourses() {
+  let session = document.getElementById('n-session').value.trim()
+  let semester = document.getElementById('n-semester').value.trim()
+  let level = document.getElementById('n-level').value.trim()
+  let student_reg_no = document.getElementById('n-student_reg_no').value.trim()
+
+  let url = `/api/student-courses?student_reg_no=${student_reg_no}&level=${level}&session=${session}&semester=${semester}`
+  jQuery.getJSON(url).done(successCallback).fail(failureCallback)
+}
+
+function successCallback(responseData) {
+  let placeholder = courses_select_control.firstElementChild
+  courses_select_control.innerHTML = ""
+  courses_select_control.appendChild(placeholder)
+  responseData.forEach(c => {
+    let option = new Option(`${c.course_code}`, c.course_code, false)
+    courses_select_control.appendChild(option)
+  })
+  notificationEl.classList.replace('d-block', 'd-none')
+}
+
+function failureCallback(failureXhrObj) {
+  notificationEl.classList.replace('d-none', 'd-block')
+  notificationMsgEl.textContent = 'Error: ensure to select all the preceeding fields before fetching student\'s courses'
+  console.log(failureXhrObj)
+}
+
+</script>
+
+<%- include ('partials/bottom') %>

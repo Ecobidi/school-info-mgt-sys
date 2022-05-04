@@ -1,0 +1,139 @@
+<%- include ('partials/top') %>
+  <div class="row space">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+        <h3 class="page-title">Enter Student's Course Score</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div>
+      <% if (success_msg && success_msg.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <strong><%= success_msg %></strong> 
+        </div>
+        <script>
+          $(".alert").alert();
+        </script>
+      <% } %>
+      <% if (error_msg && error_msg.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <strong><%= error_msg %></strong> 
+        </div>
+        <script>
+          $(".alert").alert();
+        </script>
+      <% } %>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-primary" onclick="window.history.back()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Go Back</button>
+      </div>
+    </div>
+
+    <div class="col-lg-6 py-2">
+      <h6 class="p-2 border" style="border-bottom: 4px solid #aaa !important;">Student Data</h6>
+      <table class="table table-sm-responsive table-responsive bg-white">
+        <tbody>
+        <tr>
+          <td><span>Reg. Number:</span></td>
+          <td><%= student.reg_no %></td>
+        </tr>
+        <tr>
+          <td><span>Name:</span></td>
+          <td><%= student.surname + ", " + student.first_name + " " + student.middle_name %></td>
+        </tr>
+        <tr>
+          <td><span>Course of Study:</span></td>
+          <td><%= student.name_of_programme_of_study %></td>
+        </tr>
+        <tr>
+          <td><span>Level:</span></td>
+          <td><%= student.level %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <div class="col-lg-6 py-2">
+      <h6 class="p-2 border" style="border-bottom: 4px solid #aaa !important;">Input Student's Score</h6>
+      <div>
+        <div id="notification" class="d-none alert alert-danger alert-dismissible fade show" role="alert">
+          <strong class="text-center text-dark" id="notification-text"></strong> 
+        </div>
+        <script>
+          $(".alert").alert();
+        </script>
+      </div>
+      <form onsubmit="event.preventDefault(); submitResult();" action="/results/new" method="POST" id="result-form" enctype="application/x-www-form-urlencoded">
+        <table class="table table-sm-responsive table-responsive bg-white">
+          <tbody>
+          <tr>
+            <td><span>Course Code:</span></td>
+            <td class="font-weight-bold text-uppercase"><%= course.course_code %></td>
+          </tr>
+          <tr>
+            <td><span>Course Title:</span></td>
+            <td class="font-weight-bold text-uppercase"><%= course.course_title %></td>
+          </tr>
+          <tr>
+            <td><span>C.A. Score (30%):</span></td>
+            <td><input type="number" class="form-control" name="ca_score" max=30 required> </td>
+          </tr>
+          <tr>
+            <td><span>Exam Score (70%):</span></td>
+            <td><input type="number" class="form-control" name="exam_score" max=70 required> </td>
+          </tr>
+          </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        <div style="display: none;">
+          <input type="hidden" name="course" value='<%= course._id %>'>
+          <input type="hidden" name="student" value='<%= student._id %>'>
+          <input type="hidden" name="level" value='<%= query.level %>'>
+          <input type="hidden" name="semester" value='<%= query.semester %>'>
+          <input type="hidden" name="session" value='<%= query.session %>'>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+</div>
+
+</div>
+
+<script>
+let f = document.getElementById('result-form')
+let notificationEl = document.getElementById('notification')
+let notificationMsgEl = document.getElementById('notification-text')
+
+function submitResult() {
+  notificationEl.classList.replace('d-none', 'd-block')
+  notificationMsgEl.textContent = 'Loading...'
+  let data = {
+    course: f.course.value, student: f.student.value, level: f.level.value, semester: f.semester.value, session: f.session.value, ca_score: f.ca_score.value, exam_score: f.exam_score.value
+  }
+  jQuery.post('/results/new', data).then(successCallback).fail(failureCallback)
+  return false
+}
+
+function successCallback(responseData, b) {
+  notificationEl.classList.replace('alert-danger', 'alert-success')
+  notificationMsgEl.textContent = responseData.message
+}
+
+function failureCallback(responseData) {
+  notificationEl.classList.replace('alert-success', 'alert-danger')
+  notificationMsgEl.textContent = 'Error: Something went wrong'
+}
+
+</script>
+
+<%- include ('partials/bottom') %>

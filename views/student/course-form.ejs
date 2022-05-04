@@ -1,0 +1,150 @@
+<%- include ('../partials/student-top') %>
+<div class="row text-uppercase space">
+  <div class="col-md-3 col-sm-12 mb-3 text-center text-md-left">
+    <h6 class="text-center p-2 border" style="border-bottom: 4px solid #aaa !important;">Passport Photograph</h6>
+    <div class="bg-white d-flex justify-content-center">
+      <img src='<%= student.photo %>' style="width: 172px; height: 200px;" />
+    </div> 
+  </div>
+  <div class="col-md-9 col-sm-12">
+    <h6 class="p-2 border" style="border-bottom: 4px solid #aaa !important;">Basic Details</h6>
+    <table class="table table-sm-responsive table-responsive bg-white basic-info-table">
+      <tbody>
+      <tr>
+        <td><span>Reg. Number:</span></td>
+        <td><%= student.reg_no %></td>
+      </tr>
+      <tr>
+        <td><span>Name:</span></td>
+        <td><%= student.surname + ", " + student.first_name + " " + student.middle_name %></td>
+      </tr>
+      <tr>
+        <td><span>Faculty/School:</span></td>
+        <td><%= student.school_faculty %></td>
+      </tr>
+      <tr>
+        <td><span>Department:</span></td>
+        <td><%= student.department %></td>
+      </tr>
+      <tr>
+        <td><span>Course of Study:</span></td>
+        <td><%= student.name_of_programme_of_study %></td>
+      </tr>
+      <tr>
+        <td><span>Level:</span></td>
+        <td><%= student.level %></td>
+      </tr>
+      <tr>
+        <td><span>Session:</span></td>
+        <td><%= session %></td>
+      </tr>
+      <tr>
+        <td><span>Semester:</span></td>
+        <td><%= semester %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-12">
+    <div>
+      <% if (error_msg && error_msg.length > 0) { %>
+        <div class="text-center alert alert-danger alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <strong><%= error_msg %></strong> 
+        </div>
+        <script>
+          $(".alert").alert();
+        </script>
+      <% } %>
+    </div>
+    <div>
+      <% if (success_msg && success_msg.length > 0) { %>
+        <div class="text-center alert alert-success alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <strong><%= success_msg %></strong> 
+        </div>
+        <script>
+          $(".alert").alert();
+        </script>
+      <% } %>
+    </div>
+  </div>
+  
+  <div class="col-lg-12">
+    <h4 class="card-title text-center text-uppercase"><%= session + " " + level + " Course Form" %></h4>
+    <div>
+      <form id="course-reg-form" action="/student/register-semester-courses" method="POST" style="visibility: hidden;">
+        <input type="hidden" name="level" value='<%= level %>'>
+        <input type="hidden" name="semester" value='<%= semester %>'>
+        <input type="hidden" name="session" value='<%= session %>'>
+      </form>
+      <table class="table table-bordered">
+        <thead class="bg-light text-center">
+          <tr>
+            <th>S/N</th>
+            <th>Code</th>
+            <th>Title</th>
+            <th>Unit</th>
+            <th>Signature</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% courses.forEach((c, index) => { %>
+            <tr>
+              <td class="text-center"><%= index + 1 %></td>
+              <td><%= c.course_code %></td>
+              <td><%= c.course_title %></td>
+              <td class="text-center"><%= c.course_unit %></td>
+              <td></td>
+            </tr>
+          <% }) %>
+        </tbody>
+        <tfoot class="bg-light">
+          <tr>
+            <td colspan="3"></td>
+            <td class='text-center'><strong><%= totalCourseUnits %></strong></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="d-flex justify-content-between space">
+      <div class="form-signature mx-2">
+        <p>
+          <span>Signature:</span>
+        </p>
+        <p>
+          <span>Date:</span>
+        </p>
+        <h6 class="text-center">STUDENT</h6>
+      </div>
+      <div class="form-signature mx-2">
+        <p>
+          <span>Signature:</span>
+        </p>
+        <p>
+          <span>Date:</span>
+        </p>
+        <h6 class="text-center">HOD</h6>
+      </div>
+      <div class="form-signature mx-2">
+        <p>
+          <span>Signature:</span>
+        </p>
+        <p>
+          <span>Date:</span>
+        </p>
+        <h6 class="text-center">ACADEMIC ADVISER</h6>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include ('../partials/student-bottom') %>
