@@ -28,7 +28,7 @@
     <% /* %>
     <section class="row space">
       <div class="col-md-4 offset-md-4 col-sm-12 p-3 border-rounded" style="background-color: rgb(9, 6, 51);">
-        <div class="text-center text-white mb-4 mt-4">
+        <div class="text-center mb-4 mt-4">
           <div>
             <i class="fa fa-key icon" aria-hidden="true"></i>
           </div>
@@ -65,7 +65,7 @@
       </div>
     </section>
     <% */ %>
-    <div class="row text-white">
+    <div class="row">
       <div class="col-12 d-flex align-items-center justify-content-center">
         <div class="card text-center" style="max-width: 420px; width: 85%; background-image: rgba(200, 200, 200, 0.2) !important; background-repeat: repeat-x; margin-top: 3rem; border: none;">
           <% /* %>
@@ -73,9 +73,9 @@
             <img class="mb-1" src="/images/logo.jpg" width="190" style="height: 112px; width: auto; border-radius: 50%;">
           </div>
           <% */ %>
-          <div class="card-body">
+          <div class="card-body bg-light">
             <div class="card-block">
-              <h2 class="white mb-2 text-uppercase">Login</h2>
+              <h2 class="white mb-2 text-uppercase">Admin Login</h2>
               <form action="/login" method="POST">
                 <div class="form-group">
                   <div class="col-md-12">
@@ -94,7 +94,7 @@
                     <div class="col-md-12">
                       <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0 ml-3">
                         <input type="checkbox" class="custom-control-input" checked id="rememberme">
-                        <label class="custom-control-label float-left white" for="rememberme">Remember Me</label>
+                        <label class="custom-control-label float-left " for="rememberme">Remember Me</label>
                       </div>
                     </div>
                   </div>
@@ -109,7 +109,7 @@
             </div>
           </div>
           <div class="card-footer">
-              <div class="float-left"><a (click)="onForgotPassword()" class="white">Recover Password</a></div>
+              <div class="float-left"><a (click)="onForgotPassword()">Recover Password</a></div>
               <!--<div class="float-right"><a (click)="onRegister()" class="white">New User?</a></div>-->
           </div>
             </div>
