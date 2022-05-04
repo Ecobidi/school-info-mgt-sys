@@ -12,6 +12,8 @@ let port = process.env.PORT || PORT
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.qmunc.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
 
+console.log(uri)
+
 try {
   mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   console.log('connected to database: ' + process.env.DB_NAME)
@@ -26,9 +28,9 @@ const StudentClientRouter = require('./routes/studentRouter')
 
 const RegisteredCoursesService = require('./services/registered_course')
 
-// const DBCounterModel = require('./models/db_counter')
+const DBCounterModel = require('./models/db_counter')
 
-// DBCounterModel.insertMany([{key: 'students_id'}, {key: 'users_id'}, {key: 'courses_id'}, {key: 'departments_id'}, {key: 'programmes_of_study_id'}, {key: 'results_id'}, {key: 'courses_allocations_id'}])
+DBCounterModel.insertMany([{key: 'students_id'}, {key: 'users_id'}, {key: 'courses_id'}, {key: 'departments_id'}, {key: 'programmes_of_study_id'}, {key: 'results_id'}, {key: 'courses_allocations_id'}])
 
 // init express App
 let app = express()
