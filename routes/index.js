@@ -14,10 +14,10 @@ const getDashboard = (req, res) => {
 
 router.use('/login', LoginRouter)
 
-// router.use((req, res, next) => {
-//   if (req.session.user) next()
-//   else res.redirect('/login')
-// })
+router.use((req, res, next) => {
+  if (req.session.user) next()
+  else res.redirect('/login')
+})
 
 router.get('/', getDashboard)
 
