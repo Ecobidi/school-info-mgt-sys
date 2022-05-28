@@ -1,3 +1,4 @@
+const sharp = require('sharp')
 const { streamUpload, removeUploadedFile } = require('../config/cloudinary')
 
 const StudentService = require('../services/student')
@@ -41,12 +42,12 @@ class StudentController {
 
   static async createStudent(req, res) {
     let dao = req.body
-    console.log(dao)
     let programme_of_study = await ProgrammeOfStudyService.findBySerialNumber(dao.programme_of_study)
     dao.name_of_programme_of_study = programme_of_study.name
     try {
       if (req.file) {
         let editedImage = await sharp(req.file.buffer).resize(320, 280).toBuffer()
+        console.log(editedImage)
         const imageInfo = await streamUpload(editedImage, process.env.PROJECT_CLOUDINARY_IMAGE_FOLDER + "/students")
         dao.photo = imageInfo.url
         dao.photo_public_id = imageInfo.public_id

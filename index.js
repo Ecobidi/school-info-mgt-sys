@@ -12,8 +12,6 @@ let port = process.env.PORT || PORT
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.qmunc.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
 
-console.log(uri)
-
 try {
   mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   console.log('connected to database: ' + process.env.DB_NAME)

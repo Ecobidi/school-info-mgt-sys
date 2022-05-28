@@ -7,9 +7,19 @@ cloudinary.config({
   api_secret: process.env.API_SECRET
 });
 
+function arrayBufferToBase64( buffer ) {
+  var binary = '';
+  var bytes = new Uint8Array( buffer );
+  var len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode( bytes[ i ] );
+  }
+  return window.btoa( binary );
+}
+
 const streamUpload = (file, folderName) => {
   return new Promise((resolve, reject) => {
-      let stream = cloudinary.v2.uploader.upload_stream({folder: folderName},
+      let stream = cloudinary.v2.uploader.upload_stream({ folder: folderName},
         (error, result) => {
           if (result) {
             resolve(result);
@@ -18,7 +28,7 @@ const streamUpload = (file, folderName) => {
           }
         }
       );
-     streamifier.createReadStream(file.buffer).pipe(stream);
+     streamifier.createReadStream(file).pipe(stream);
   });
 };
 
