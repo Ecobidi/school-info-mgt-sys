@@ -47,7 +47,6 @@ class StudentController {
     try {
       if (req.file) {
         let editedImage = await sharp(req.file.buffer).resize(320, 280).toBuffer()
-        console.log(editedImage)
         const imageInfo = await streamUpload(editedImage, process.env.PROJECT_CLOUDINARY_IMAGE_FOLDER + "/students")
         dao.photo = imageInfo.url
         dao.photo_public_id = imageInfo.public_id

@@ -1,3 +1,4 @@
+const sharp = require('sharp')
 const { streamUpload, removeUploadedFile } = require('../config/cloudinary')
 const path = require('path')
 const UserService = require('../services/user')
@@ -58,7 +59,8 @@ class UserController {
         return res.redirect('/users/new')
       }
       if (req.file) {
-        const imageInfo = await streamUpload(req.file, process.env.PROJECT_CLOUDINARY_IMAGE_FOLDER + '/users')
+        let editedImage = await sharp(req.file.buffer).resize(320, 280).toBuffer()
+        const imageInfo = await streamUpload(editedImage, process.env.PROJECT_CLOUDINARY_IMAGE_FOLDER + '/users')
         dao.photo = imageInfo.url
         dao.photo_public_id = imageInfo.public_id
       }
